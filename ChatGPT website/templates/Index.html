@@ -3,16 +3,29 @@
 <head>
     <title>JSON Data Display</title>
 </head>
-<body>
+<body style="text-align: center; margin: 0 auto; display: block;">
+    <h1>AI career coach</h1>
+    <input type="text" id="prompt" name="prompt" placeholder="What would you like to ask..." style="width:25%">
+    <br>
     <button id="runButton">Run Python Code</button>
-    <div id="response"></div> <!-- Change the id to match the response content variable -->
+    <div id="response"></div>
 
     <script>
         document.getElementById("runButton").addEventListener("click", function() {
-            fetch("/AI_test.py", { method: "POST" }) // Correct the route to match your Flask route
-                .then(response => response.text())
+            // Get the user's input from the "prompt" input field
+            const userPrompt = document.getElementById("prompt").value;
+
+            // Send the user's input to the server (Python) along with the POST request
+            fetch("/AI_test.py", {
+                method: "POST",
+                body: JSON.stringify({ prompt: userPrompt }), // Send the user's input as JSON
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(response => response.json())
                 .then(data => {
-                    document.getElementById("response").innerText = data; // Use the correct id here
+                    document.getElementById("response").innerText = data.response_content;
                 })
                 .catch(error => {
                     console.error("Error:", error);
