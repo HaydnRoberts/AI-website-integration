@@ -8,7 +8,7 @@
     <input type="text" id="prompt" name="prompt" placeholder="What would you like to ask..." style="width:25%">
     <br>
     <button id="runButton">Run Python Code</button>
-    <div id="response"></div>
+    <div id="chat_history"></div>
 
     <script>
         document.getElementById("runButton").addEventListener("click", function() {
@@ -23,9 +23,9 @@
                     "Content-Type": "application/json",
                 },
             })
-                .then(response => response.json())
+                .then(chat_history => chat_history.json())
                 .then(data => {
-                    document.getElementById("response").innerText = data.response_content;
+                    document.getElementById("chat_history").innerText = data.chat_history;
                 })
                 .catch(error => {
                     console.error("Error:", error);

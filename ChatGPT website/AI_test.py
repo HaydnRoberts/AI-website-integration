@@ -26,10 +26,13 @@ def run_python_code():
         user_input = request.json.get('prompt', '')
 
         chat_history.append(f"You: {user_input}")
+        chat_history.append("\n")
 
         # Include the user's input in the conversation with GPT-3
-        messages = [{"role": "system", "content": "You are a helpful assistant from Bradford college that provides career advice to college students. Keep responses relevant and informative, and try not to repeat yourself, you would like to help students pick the right course and will help them with any issues."},
-                    {"role": "user", "content": user_input}]
+        messages = [
+            {"role": "system", "content": "You are a helpful assistant from Bradford college that provides career advice to college students. Keep responses relevant and informative, and try not to repeat yourself, you would like to help students pick the right course and will help them with any issues."},
+            {"role": "user", "content": user_input}
+        ]
 
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-0613",
@@ -41,12 +44,17 @@ def run_python_code():
         response_content = response["choices"][0]["message"]["content"]
 
         chat_history.append(f"Career chat: {response_content}")
+        chat_history.append("\n")
+
+        # Join the chat_history list into a single string with newlines
+        chat_history_text = "\n".join(chat_history)
 
         # Return the response content as JSON
-        return jsonify({"response_content": response_content})
+        return jsonify({"chat_history": chat_history_text})
     else:
         # Handle GET request (render HTML template)
         return render_template('your_template.html')
+
 
 
 
