@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSON Data Display</title>
+</head>
+<body>
+    <button id="runButton">Run Python Code</button>
+    <div id="response"></div> <!-- Change the id to match the response content variable -->
+
+    <script>
+        document.getElementById("runButton").addEventListener("click", function() {
+            fetch("/AI_test.py", { method: "POST" }) // Correct the route to match your Flask route
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("response").innerText = data; // Use the correct id here
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        });
+    </script>
+</body>
+</html>
