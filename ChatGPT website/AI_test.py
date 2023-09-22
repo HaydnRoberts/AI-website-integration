@@ -24,14 +24,22 @@ def run_python_code():
     if request.method == 'POST':
         # Get the user's input from the JSON request
         user_input = request.json.get('prompt', '')
+        chat_memory = request.json.get('chat_memory','')
+        print(chat_memory)
 
         chat_history.append(f"You: {user_input}")
         chat_history.append("\n")
+        
+        try:
+            conversation_for_model = str(chat_history[-int(chat_memory):])
+        except:
+            conversation_for_model = str(chat_history[-4:])
+            print('Invalid option')
 
         # Include the user's input in the conversation with GPT-3
         messages = [
-            {"role": "system", "content": "You are a helpful assistant from Bradford college that provides career advice to college students. Keep responses relevant and informative, and try not to repeat yourself, you would like to help students pick the right course and will help them with any issues."},
-            {"role": "user", "content": user_input}
+            {"role": "system", "content": "You are a helpful careers advisor from Bradford college that provides career advice to college students. Keep responses relevant and informative, and try not to repeat yourself, you would like to help students pick the right course and will help them with any issues. The past interactions yourself and the user will be sent alongside the question but do not write names out with your response."},
+            {"role": "user", "content": conversation_for_model}
         ]
 
         response = openai.ChatCompletion.create(
@@ -43,7 +51,7 @@ def run_python_code():
         # Extract the content of the assistant's message as a string
         response_content = response["choices"][0]["message"]["content"]
 
-        chat_history.append(f"Career chat: {response_content}")
+        chat_history.append(f"Career Coach Brad: {response_content}")
         chat_history.append("\n")
 
         # Join the chat_history list into a single string with newlines
@@ -55,8 +63,12 @@ def run_python_code():
         # Handle GET request (render HTML template)
         return render_template('your_template.html')
 
-
-
+@app.route('/refresh_chat_history', methods=['POST'])
+def refresh_chat_history():
+    if request.method == 'POST':
+        global chat_history
+        chat_history = []
+    return ''
 
 if __name__ == '__main__':
     app.run(debug=True)

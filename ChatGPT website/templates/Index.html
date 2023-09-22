@@ -5,20 +5,73 @@
 </head>
 <body style="text-align: center; margin: 0 auto; display: block;">
     <h1>AI career coach</h1>
-    <input type="text" id="prompt" name="prompt" placeholder="What would you like to ask..." style="width:25%">
+    <label for="options">How many previous questions Carrer coach will remember:</label>
+    
+    <select id="options">
+        <option value="12">3</option>
+        <option value="8">2</option>
+        <option value="4">1</option>
+        <option value="2">0</option>
+    </select>
     <br>
-    <button id="runButton">Run Python Code</button>
+    <button id="refreshButton">Refresh chat history</button>
+    <br>
+
+    <form id="RunPython">
+        <input type="text" id="prompt" name="prompt" placeholder="What would you like to ask..." style="width:25%">
+        <button type="submit" id="runButton">Send</button>
+    </form>
+
     <div id="chat_history"></div>
 
     <script>
-        document.getElementById("runButton").addEventListener("click", function() {
+        //document.getElementById("runButton").addEventListener("click", function() {
+        //    runCode();
+        //});
+
+        document.getElementById("RunPython").addEventListener("submit", function(event) {
+            event.preventDefault();
+            runCode();
+        });
+
+
+        function runCode() {
             // Get the user's input from the "prompt" input field
             const userPrompt = document.getElementById("prompt").value;
-
+            const selectBox = document.getElementById("options");
+    
+            // Get the selected chat memory value
+            const chatMemory = selectBox.value;
+    
             // Send the user's input to the server (Python) along with the POST request
             fetch("/AI_test.py", {
                 method: "POST",
-                body: JSON.stringify({ prompt: userPrompt }), // Send the user's input as JSON
+                body: JSON.stringify({ 
+                    prompt: userPrompt,
+                    chat_memory: chatMemory, // Include the selected chat memory value
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(chat_history => chat_history.json())
+                .then(data => {
+                    document.getElementById("chat_history").innerText = data.chat_history;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        };
+    
+        document.getElementById("refreshButton").addEventListener("click", function() {
+            // Get the selected chat memory value
+            const selectBox = document.getElementById("options");
+            const chatMemory = selectBox.value;
+    
+            // Send a separate request to refresh chat history using a different endpoint
+            fetch("/refresh_chat_history", {
+                method: "POST",
+                body: JSON.stringify({ chat_memory: chatMemory }),
                 headers: {
                     "Content-Type": "application/json",
                 },
