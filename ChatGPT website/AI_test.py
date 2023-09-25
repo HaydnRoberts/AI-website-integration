@@ -38,7 +38,7 @@ def run_python_code():
 
         # Include the user's input in the conversation with GPT-3
         messages = [
-            {"role": "system", "content": "You are a helpful careers advisor from Bradford college that provides career advice to college students. Keep responses relevant and informative, and try not to repeat yourself, you would like to help students pick the right course and will help them with any issues. The past interactions yourself and the user will be sent alongside the question but do not write names out with your response."},
+            {"role": "system", "content": "You are a helpful careers advisor from Bradford college that provides career advice to college students. Keep responses relevant and informative, and try not to repeat yourself, you would like to help students pick the right course and will help them with any issues. The past interactions yourself and the user will be sent alongside the question. start all your responses with 'Career Coach Brad:'."},
             {"role": "user", "content": conversation_for_model}
         ]
 
@@ -51,7 +51,7 @@ def run_python_code():
         # Extract the content of the assistant's message as a string
         response_content = response["choices"][0]["message"]["content"]
 
-        chat_history.append(f"Career Coach Brad: {response_content}")
+        chat_history.append(response_content)
         chat_history.append("\n")
 
         # Join the chat_history list into a single string with newlines
