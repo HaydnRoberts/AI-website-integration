@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSON Data Display</title>
+    <title>JCareer Coach Brad</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body style="text-align: center; margin: 0 auto; display: block;">
-    <h1>AI career coach</h1>
-    <label for="options">How many previous questions Carrer coach will remember:</label>
+<body>
+    <h1>Career Coach Brad</h1>
+
+    <div id="chat_history" class="chat-container" type="text"></div>
+
+    <div class="text-bar">
+        <form id="RunPython">
+            <div class="input-container">
+                <textarea id="prompt" name="prompt" placeholder="What would you like to ask..."></textarea>
+                <button type="submit" id="runButton">➜</button>
+            </div>
+        </form>
+        <div class="option-bar">
+            <label for="options" style="color:white;">How many previous questions Carrer coach will remember:</label>
+            <select id="options">
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+                <option value="0">0</option>
+            </select>
+            <button id="refreshButton">Refresh chat history</button>
+        </div>
+    </div>
     
-    <select id="options">
-        <option value="12">3</option>
-        <option value="8">2</option>
-        <option value="4">1</option>
-        <option value="2">0</option>
-    </select>
-    <br>
-    <button id="refreshButton">Refresh chat history</button>
-    <br>
-
-    <form id="RunPython">
-        <input type="text" id="prompt" name="prompt" placeholder="What would you like to ask..." style="width:25%">
-        <button type="submit" id="runButton">Send</button>
-    </form>
-
-    <div id="chat_history"></div>
-
     <script>
-        //document.getElementById("runButton").addEventListener("click", function() {
-        //    runCode();
-        //});
-
         document.getElementById("RunPython").addEventListener("submit", function(event) {
             event.preventDefault();
             runCode();

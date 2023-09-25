@@ -13,7 +13,8 @@ openai.api_key = api_key
 
 chat_history = []
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
+
 
 @app.route('/')
 def index():
@@ -25,13 +26,22 @@ def run_python_code():
         # Get the user's input from the JSON request
         user_input = request.json.get('prompt', '')
         chat_memory = request.json.get('chat_memory','')
+        #These values are strange as the history includes \n and both the user and coach's responses
+        #this means that the value 2 includes just the last input from the user and every 4 added includes a input and response
+        #the algorithm for this is n4 + 2
+        chat_memory = int(chat_memory)
         print(chat_memory)
+        chat_memory *= 4
+        chat_memory += 2
+        print(chat_memory)
+        
 
         chat_history.append(f"You: {user_input}")
         chat_history.append("\n")
         
+        print(str(chat_history[-chat_memory:]))
         try:
-            conversation_for_model = str(chat_history[-int(chat_memory):])
+            conversation_for_model = str(chat_history[-chat_memory:])
         except:
             conversation_for_model = str(chat_history[-4:])
             print('Invalid option')

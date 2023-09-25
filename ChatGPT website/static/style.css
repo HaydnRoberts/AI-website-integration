@@ -1,0 +1,64 @@
+/* Style for the container div to hold the input and button */
+.input-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center; /* Center the items horizontally */
+    width: 60%;
+    margin: 0 auto;
+    border: 2px solid darkturquoise; /* Add border to the container */
+    border-radius: 5px; /* Rounded corners for the container */
+    padding: 10px; /* Add padding to the container */
+    background-color: #ffffff;
+}
+
+/* Style for the text area */
+#prompt {
+    flex-grow: 1;
+    height: 100px;
+    padding: 10px;
+    border: none; /* Remove border from the textarea */
+    resize: none;
+    font-size: 16px;
+}
+
+/* Style for the Send button */
+#runButton {
+    padding: 10px 15px;
+    background-color: #89347c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chat-container {
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
+    width: 57.5%;
+    margin: 0 auto;
+    border: 2px solid darkturquoise; 
+    border-bottom: none;
+    border-radius: 5px 5px 0 0; /* Rounded top corners */
+    padding: 10px; /* Add padding to the container */
+}
+
+body {
+    text-align: center; 
+    margin: 0 auto; 
+    display: block;
+}
+
+.text-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+}
+
+.option-bar {
+    background-color: #89347c; 
+    width:60%; 
+    justify-content: center; 
+    margin: 0 auto; 
+    border-radius: 5px;
+}
