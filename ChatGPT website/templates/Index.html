@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JCareer Coach Brad</title>
+    <title>Career Coach Brad</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz@6..12&display=swap" rel="stylesheet">
 </head>
 <body>
     <h1>Career Coach Brad</h1>
 
-    <div id="chat_history" class="chat-container" type="text"></div>
+    <div id="chat_history" class="chat-container" type="text">Carrer Coach Brad is an Ai assistant designed to help you find courses and career paths. Ask a question i the box below and Brad will give you guidance for your future.</div>
 
     <div class="text-bar">
         <form id="RunPython">
@@ -32,6 +35,8 @@
         document.getElementById("RunPython").addEventListener("submit", function(event) {
             event.preventDefault();
             runCode();
+            document.getElementById("runButton").disabled = true;
+            document.getElementById("runButton").innerText = "···";
         });
 
 
@@ -39,6 +44,7 @@
             // Get the user's input from the "prompt" input field
             const userPrompt = document.getElementById("prompt").value;
             const selectBox = document.getElementById("options");
+            document.getElementById("prompt").value = "";
     
             // Get the selected chat memory value
             const chatMemory = selectBox.value;
@@ -57,16 +63,22 @@
                 .then(chat_history => chat_history.json())
                 .then(data => {
                     document.getElementById("chat_history").innerText = data.chat_history;
+                    document.getElementById("runButton").innerText = "➜";
+                    document.getElementById("runButton").disabled = false;
                 })
                 .catch(error => {
                     console.error("Error:", error);
+                    document.getElementById("runButton").innerText = "➜";
+                    document.getElementById("runButton").disabled = false;
                 });
+                
         };
     
         document.getElementById("refreshButton").addEventListener("click", function() {
             // Get the selected chat memory value
             const selectBox = document.getElementById("options");
             const chatMemory = selectBox.value;
+            document.getElementById("chat_history").innerText = "";
     
             // Send a separate request to refresh chat history using a different endpoint
             fetch("/refresh_chat_history", {

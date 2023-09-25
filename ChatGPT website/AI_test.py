@@ -38,8 +38,10 @@ def run_python_code():
 
         chat_history.append(f"You: {user_input}")
         chat_history.append("\n")
-        
+
+        # prints out the chat history to be sent to openAI for debugging purposes
         print(str(chat_history[-chat_memory:]))
+        
         try:
             conversation_for_model = str(chat_history[-chat_memory:])
         except:
