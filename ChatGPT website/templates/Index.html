@@ -39,6 +39,14 @@
             document.getElementById("runButton").innerText = "···";
         });
 
+        document.getElementById("prompt").addEventListener("keydown", function(event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault(); // Prevent the default behavior of the Enter key
+                runCode();
+                document.getElementById("runButton").disabled = true;
+                document.getElementById("runButton").innerText = "···";
+            }
+        });
 
         function runCode() {
             // Get the user's input from the "prompt" input field
@@ -65,11 +73,13 @@
                     document.getElementById("chat_history").innerText = data.chat_history;
                     document.getElementById("runButton").innerText = "➜";
                     document.getElementById("runButton").disabled = false;
+                    window.scrollTo(0, document.body.scrollHeight);
                 })
                 .catch(error => {
                     console.error("Error:", error);
                     document.getElementById("runButton").innerText = "➜";
                     document.getElementById("runButton").disabled = false;
+                    window.scrollTo(0, document.body.scrollHeight);
                 });
                 
         };

@@ -12,6 +12,7 @@
     font-family: 'Nunito Sans', sans-serif;
 }
 
+
 #prompt {
     flex-grow: 1;
     height: 100px;
@@ -76,4 +77,48 @@ body {
     justify-content: center; 
     margin: 0 auto; 
     border-radius: 5px;
+}
+
+@media (max-width: 800px) {
+    .option-bar {
+        background-color: #89347c; 
+        width:95%; 
+        justify-content: center; 
+        margin: 0 auto; 
+        border-radius: 5px;
+    }
+    #refreshButton {
+        padding: 5px 10px;
+        background-color: darkturquoise;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px;
+    }
+    .chat-container {
+        display: flex;
+        align-items: flex-start;
+        text-align: left;
+        width: 90%;
+        min-height: 400px;
+        margin: 0 auto;
+        border: 2px solid darkturquoise; 
+        border-bottom: none;
+        border-radius: 5px 5px 0 0; /* Rounded top corners */
+        padding: 10px; /* Add padding to the container */
+        font-family: 'Nunito Sans', sans-serif;
+    }
+    .input-container {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center; /* Center the items horizontally */
+        width: 95%;
+        margin: 0 auto;
+        border: 2px solid darkturquoise; /* Add border to the container */
+        border-radius: 5px; /* Rounded corners for the container */
+        padding: 5px; /* Add padding to the container */
+        background-color: #ffffff;
+        font-family: 'Nunito Sans', sans-serif;
+    }
 }
