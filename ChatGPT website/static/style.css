@@ -5,7 +5,7 @@
     justify-content: center; /* Center the items horizontally */
     width: 60%;
     margin: 0 auto;
-    border: 2px solid darkturquoise; /* Add border to the container */
+    border: 3px solid darkturquoise; /* Add border to the container */
     border-radius: 5px; /* Rounded corners for the container */
     padding: 10px; /* Add padding to the container */
     background-color: #ffffff;
@@ -51,11 +51,12 @@
     width: 57.5%;
     min-height: 400px;
     margin: 0 auto;
-    border: 2px solid darkturquoise; 
+    border: 3px solid darkturquoise; 
     border-bottom: none;
     border-radius: 5px 5px 0 0; /* Rounded top corners */
     padding: 10px; /* Add padding to the container */
     font-family: 'Nunito Sans', sans-serif;
+    background-color: white;
 }
 
 body {
@@ -63,6 +64,7 @@ body {
     margin: 0 auto; 
     display: block;
     font-family: 'Nunito Sans', sans-serif;
+    background-color: lightgray;
 }
 
 .text-bar {
@@ -103,11 +105,12 @@ body {
         width: 90%;
         min-height: 400px;
         margin: 0 auto;
-        border: 2px solid darkturquoise; 
+        border: 3px solid darkturquoise; 
         border-bottom: none;
         border-radius: 5px 5px 0 0; /* Rounded top corners */
         padding: 10px; /* Add padding to the container */
         font-family: 'Nunito Sans', sans-serif;
+        background-color: white;
     }
     .input-container {
         display: flex;
@@ -115,7 +118,7 @@ body {
         justify-content: center; /* Center the items horizontally */
         width: 95%;
         margin: 0 auto;
-        border: 2px solid darkturquoise; /* Add border to the container */
+        border: 3px solid darkturquoise; /* Add border to the container */
         border-radius: 5px; /* Rounded corners for the container */
         padding: 5px; /* Add padding to the container */
         background-color: #ffffff;
