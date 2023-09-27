@@ -1,5 +1,4 @@
 import openai
-import json
 from flask import Flask, render_template, request, jsonify
 
 file_path = '/Users/haydn/Documents/GitHub/AI-website-integration-api-key/key.txt'  
