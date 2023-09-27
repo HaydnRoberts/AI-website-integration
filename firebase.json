@@ -4,7 +4,7 @@
       "source": "functions",
       "codebase": "default",
       "ignore": [
-        "venv",
+        "node_modules",
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log"
@@ -12,7 +12,7 @@
     }
   ],
   "hosting": {
-    "public": "ChatGPT website",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
