@@ -12,9 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-      
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -28,8 +26,9 @@ jobs:
       - name: Build Flask App
         run: python AI_test.py
 
-      - name: Deploy to Firebase Hosting
-        uses: w9jds/firebase-action@v6  # Use an appropriate Firebase Hosting action
+      - uses: actions/checkout@v3
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+      
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CAREER_COACH_BRAD }}'
