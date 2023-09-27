@@ -12,7 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install Python dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install firebase_functions~=0.1.0
+          pip install flask
+          pip install openai
+          pip install json
       - name: Change directory and run Python script
         run: |
           cd ChatGPT_website
