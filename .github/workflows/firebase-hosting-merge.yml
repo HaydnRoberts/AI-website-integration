@@ -23,8 +23,12 @@ jobs:
           pip install Flask
           pip install openai
 
+      - name: Change Working Directory
+        run: cd ChatGPT_website  # Change to the directory containing your script
+        working-directory: ${{ github.workspace }}/ChatGPT_website
+
       - name: Build Flask App
-        run: python ChatGPT_website/AI_test.py
+        run: python AI_test.py  # Now you can specify the script without repeating the directory
 
       - uses: actions/checkout@v3
       - uses: FirebaseExtended/action-hosting-deploy@v0
