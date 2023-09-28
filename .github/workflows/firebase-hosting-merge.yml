@@ -22,13 +22,17 @@ jobs:
           key: ${{ secrets.api_key }}
         run: echo "api key uploaded"
 
-      - name: Change directory and run Python script
-        run: |
-          cd ChatGPT_website
-          python AI_test.py
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      
+      - name: upload to firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CAREER_COACH_BRAD_ONLINE }}'
           channelId: live
           projectId: career-coach-brad-online
+      - name: upload to functions
+        run: firebase deploy --only functions
+      - name: Change directory and run Python script
+        run: |
+          cd ChatGPT_website
+          python AI_test.py
