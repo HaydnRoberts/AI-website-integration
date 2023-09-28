@@ -31,7 +31,9 @@ jobs:
           channelId: live
           projectId: career-coach-brad-online
       - name: upload to functions
-        run: firebase deploy --only functions
+        run: |
+          firebase use --add career-coach-brad-online
+          firebase deploy --only functions
       - name: Change directory and run Python script
         run: |
           cd ChatGPT_website
