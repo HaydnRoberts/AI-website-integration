@@ -16,6 +16,13 @@ jobs:
           pip install firebase_functions~=0.1.0
           pip install flask
           pip install openai
+          pip install os
+
+      - name: Set api key as Environment Variable
+        env:
+          key: ${{ secrets.api_key }}
+        run: echo "api key uploaded"
+
       - name: Change directory and run Python script
         run: |
           cd ChatGPT_website

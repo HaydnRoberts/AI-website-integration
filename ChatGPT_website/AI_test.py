@@ -1,5 +1,6 @@
 import openai
 from flask import Flask, render_template, request, jsonify
+import os
 
 file_path = '/Users/haydn/Documents/GitHub/AI-website-integration-api-key/key.txt'  
 try:
@@ -7,6 +8,7 @@ try:
         api_key = file.read()
 except FileNotFoundError:
     print(f"The file '{file_path}' was not found.")
+    api_key  = os.environ.get('key')
 
 openai.api_key = api_key
 
