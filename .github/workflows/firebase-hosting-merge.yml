@@ -1,0 +1,28 @@
+name: Deploy to Firebase Hosting on merge
+on:
+  push:
+    tags:
+      - v*
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set api key as Environment Variable
+        env:
+          api_key: ${{ secrets.api_key }}
+        run: echo "api key uploaded"
+
+      
+      - name: upload to firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CAREER_COACH_BRAD_ONLINE }}'
+          channelId: live
+          projectId: career-coach-brad-online
+      - name: upload to functions
+        run: |
+          firebase use --add career-coach-brad-online
+          firebase deploy --only functions

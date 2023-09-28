@@ -18,7 +18,7 @@ app = Flask(__name__, static_url_path='/static')
 
 @app.route('/')
 def index():
-    return render_template('Index.html')
+    return render_template('index.html')
 
 @app.route('/AI_test.py', methods=['GET', 'POST'])
 def run_python_code():
