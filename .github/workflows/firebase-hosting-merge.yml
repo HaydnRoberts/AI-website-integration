@@ -16,7 +16,6 @@ jobs:
           pip install firebase_functions~=0.1.0
           pip install flask
           pip install openai
-          pip install os
 
       - name: Set api key as Environment Variable
         env:
