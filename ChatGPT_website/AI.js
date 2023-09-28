@@ -1,77 +1,91 @@
-const express = require('express');
-const { OpenAIApi } = require('openai');
-const fs = require('fs');
-const dotenv = require('dotenv');
+//const file_path = '/path/to/your/api-key/file.txt';
+//const api_key = fs.existsSync(file_path)
+//  ? fs.readFileSync(file_path, 'utf-8').trim()
+//  : process.env.KEY;
 
-dotenv.config();
+// Chat history array
+const chatHistory = [];
 
-const app = express();
-const port = process.env.PORT || 3000;
+// Function to run the chatbot logic
+function runCode() {
+    const userPrompt = document.getElementById("prompt").value;
+    const selectBox = document.getElementById("options");
+    document.getElementById("prompt").value = "";
 
-const file_path = '/path/to/your/api-key/file.txt'; // Update this path
-const api_key = fs.existsSync(file_path)
-  ? fs.readFileSync(file_path, 'utf-8').trim()
-  : process.env.KEY;
+    var chatMemory = parseInt(selectBox.value);
+    console.log("memory", chatMemory)
 
-const openai = new OpenAIApi({ key: api_key });
+    // Simulate chat history (replace with your logic)
+    chatHistory.push(`You: ${userPrompt}`);
 
-const chat_history = [];
+    // Adjust chatMemory as needed
+    chatMemory *= 4;
+    console.log("memory", chatMemory)
+    chatMemory += 2;
+    console.log("memory", chatMemory)
 
-app.use(express.static('public'));
-app.use(express.json());
+    const conversationForModel = toString(chatHistory.slice(-chatMemory).join('\n'));
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
-});
-
-app.post('/AI_test', async (req, res) => {
-  try {
-    const user_input = req.body.prompt || '';
-    const chat_memory = parseInt(req.body.chat_memory) || 0;
-
-    // Adjust chat_memory as needed
-    chat_memory *= 4;
-    chat_memory += 2;
-
-    chat_history.push(`You: ${user_input}`);
-
-    const conversation_for_model = chat_history.slice(-chat_memory).join('\n');
-
+    // Define messages for OpenAI API
     const messages = [
-      {
-        role: 'system',
-        content:
-          "You are a helpful careers advisor from Bradford college that provides career advice to college students. Keep responses relevant and informative, and try not to repeat yourself, you would like to help students pick the right course and will help them with any issues. The past interactions yourself and the user will be sent alongside the question. start all your responses with 'Career Coach Brad:'.",
-      },
-      {
-        role: 'user',
-        content: conversation_for_model,
-      },
+        {
+            role: 'system',
+            content:
+                "You are a helpful careers advisor from Bradford college that provides career advice to college students. Keep responses relevant and informative, and try not to repeat yourself, you would like to help students pick the right course and will help them with any issues. The past interactions yourself and the user will be sent alongside the question. Start all your responses with 'Career Coach Brad:'.",
+        },
+        {
+            role: 'user',
+            content: conversationForModel,
+        },
     ];
+    
+    const api_key = "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"
 
-    const response = await openai.createCompletion({
-      model: 'gpt-3.5-turbo-0613',
-      messages,
+    // Make a request to the OpenAI API
+    fetch('https://api.openai.com/v1/engines/gpt-3.5-turbo/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${api_key}`
+        },        
+        body: JSON.stringify({
+            messages,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        const responseContent = data.choices[0].message.content;
+        chatHistory.push(responseContent);
+
+        // Update the chat history in the HTML
+        const chatHistoryText = chatHistory.join('\n');
+        document.getElementById("chat_history").innerText = chatHistoryText;
+        window.scrollTo(0, document.body.scrollHeight);
+    })
+    .catch(error => {
+        console.error("Error: could not fetch data from openAI");
     });
+}
 
-    const response_content = response.choices[0].message.content;
-
-    chat_history.push(response_content);
-
-    const chat_history_text = chat_history.join('\n');
-
-    res.json({ chat_history: chat_history_text });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred' });
-  }
+// Event listeners
+document.getElementById("runButton").addEventListener("click", function() {
+    console.log("run button pressed")
+    runCode();
 });
 
-app.post('/refresh_chat_history', (req, res) => {
-  chat_history.length = 0;
-  res.send('');
+document.getElementById("prompt").addEventListener("keydown", function(event) {
+    console.log("key entered")
+    if (event.key === "Enter" && !event.shiftKey) {
+        console.log("enter")
+        event.preventDefault();
+        runCode();
+    }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+document.getElementById("refreshButton").addEventListener("click", function() {
+    console.log("refresh")
+    const selectBox = document.getElementById("options");
+    const chatMemory = selectBox.value;
+    document.getElementById("chat_history").innerText = "";
+    chatHistory.length = 0; // Clear chat history
 });
