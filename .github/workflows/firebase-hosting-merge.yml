@@ -22,7 +22,3 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CAREER_COACH_BRAD_ONLINE }}'
           channelId: live
           projectId: career-coach-brad-online
-      - name: upload to functions
-        run: |
-          firebase use --add career-coach-brad-online
-          firebase deploy --only functions

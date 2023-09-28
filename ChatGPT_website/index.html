@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Career Coach Brad</title>
-    <link rel="stylesheet" type="text/css" href="ChatGPT_website/style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz@6..12&display=swap" rel="stylesheet">
@@ -11,7 +11,7 @@
 <body>
     <h1>Career Coach Brad</h1>
 
-    <div id="chat_history" class="chat-container" type="text">Carrer Coach Brad is an Ai assistant designed to help you find courses and career paths. Ask a question in the box below and Brad will give you guidance for your future.</div>
+    <div id="chat_history" class="chat-container">Career Coach Brad is an AI assistant designed to help you find courses and career paths. Ask a question in the box below, and Brad will give you guidance for your future.</div>
 
     <div class="text-bar">
         <form id="RunPython">
@@ -21,7 +21,7 @@
             </div>
         </form>
         <div class="option-bar">
-            <label for="options" style="color:white;">How many previous questions Carrer coach will remember:</label>
+            <label for="options" style="color:white;">How many previous questions Career Coach will remember:</label>
             <select id="options">
                 <option value="3">3</option>
                 <option value="2">2</option>
@@ -32,81 +32,6 @@
         </div>
     </div>
     
-    <script>
-        document.getElementById("RunPython").addEventListener("submit", function(event) {
-            event.preventDefault();
-            runCode();
-            document.getElementById("runButton").disabled = true;
-            document.getElementById("runButton").innerText = "···";
-        });
-
-        document.getElementById("prompt").addEventListener("keydown", function(event) {
-            if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault(); // Prevent the default behavior of the Enter key
-                runCode();
-                document.getElementById("runButton").disabled = true;
-                document.getElementById("runButton").innerText = "···";
-            }
-        });
-
-        function runCode() {
-            // Get the user's input from the "prompt" input field
-            const userPrompt = document.getElementById("prompt").value;
-            const selectBox = document.getElementById("options");
-            document.getElementById("prompt").value = "";
-    
-            // Get the selected chat memory value
-            const chatMemory = selectBox.value;
-    
-            // Send the user's input to the server (Python) along with the POST request
-            fetch("/AI.js", {
-                method: "POST",
-                body: JSON.stringify({ 
-                    prompt: userPrompt,
-                    chat_memory: chatMemory, // Include the selected chat memory value
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-                .then(chat_history => chat_history.json())
-                .then(data => {
-                    document.getElementById("chat_history").innerText = data.chat_history;
-                    document.getElementById("runButton").innerText = "➜";
-                    document.getElementById("runButton").disabled = false;
-                    window.scrollTo(0, document.body.scrollHeight);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    document.getElementById("runButton").innerText = "➜";
-                    document.getElementById("runButton").disabled = false;
-                    window.scrollTo(0, document.body.scrollHeight);
-                });
-                
-        };
-    
-        document.getElementById("refreshButton").addEventListener("click", function() {
-            // Get the selected chat memory value
-            const selectBox = document.getElementById("options");
-            const chatMemory = selectBox.value;
-            document.getElementById("chat_history").innerText = "";
-    
-            // Send a separate request to refresh chat history using a different endpoint
-            fetch("/refresh_chat_history", {
-                method: "POST",
-                body: JSON.stringify({ chat_memory: chatMemory }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-                .then(chat_history => chat_history.json())
-                .then(data => {
-                    document.getElementById("chat_history").innerText = data.chat_history;
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-        });
-    </script>
+    <script src="/ChatGPT_website/AI.js">console.log("code running")</script>
 </body>
 </html>
