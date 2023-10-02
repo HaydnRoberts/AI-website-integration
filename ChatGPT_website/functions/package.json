@@ -1,0 +1,20 @@
+{
+    "name": "firebase-functions",
+    "version": "1.0.0",
+    "description": "Firebase Cloud Functions for ChatGPT integration",
+    "main": "AI.js", 
+    "scripts": {
+      "start": "firebase emulators:start",
+      "deploy": "firebase deploy --only functions"
+    },
+    "dependencies": {
+      "firebase-functions": "^12.6.0",
+      "firebase-admin": "^12.6.0",
+      "firebase": "^12.6.0",
+      "openai": "^0.28.0" 
+    },
+    "engines": {
+      "node": "18" 
+    }
+  }
+  

@@ -43,6 +43,7 @@
         document.getElementById("prompt").addEventListener("keydown", function(event) {
             if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault(); // Prevent the default behavior of the Enter key
+                console.log("form submitted")
                 runCode();
                 document.getElementById("runButton").disabled = true;
                 document.getElementById("runButton").innerText = "···";
@@ -57,31 +58,42 @@
     
             // Get the selected chat memory value
             const chatMemory = selectBox.value;
+
+            console.log("attempting to run request")
+            console.log(JSON.stringify({
+                prompt: userPrompt,
+                chat_memory: chatMemory
+            }),)
     
             // Send the user's input to the server (Python) along with the POST request
-            fetch("/AI.js", {
-                method: "POST",
-                body: JSON.stringify({ 
-                    prompt: userPrompt,
-                    chat_memory: chatMemory, // Include the selected chat memory value
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
+            // Make a POST request to the server
+            fetch("/ChatGPT_website/functions/AI.js", {
+            method: "POST",
+            body: JSON.stringify({
+                prompt: userPrompt,
+                chat_memory: chatMemory
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
             })
-                .then(chat_history => chat_history.json())
-                .then(data => {
-                    document.getElementById("chat_history").innerText = data.chat_history;
-                    document.getElementById("runButton").innerText = "➜";
-                    document.getElementById("runButton").disabled = false;
-                    window.scrollTo(0, document.body.scrollHeight);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    document.getElementById("runButton").innerText = "➜";
-                    document.getElementById("runButton").disabled = false;
-                    window.scrollTo(0, document.body.scrollHeight);
-                });
+            .then(response => response.json()) // Parse the response as JSON
+            .then(data => {
+            // Update the HTML with the chat history
+            document.getElementById("chat_history").innerText = data.chat_history;
+            document.getElementById("runButton").innerText = "➜";
+            document.getElementById("runButton").disabled = false;
+            window.scrollTo(0, document.body.scrollHeight);
+            console.log("request successful");
+            })
+            .catch(error => {
+            console.error("Error:", error);
+            document.getElementById("runButton").innerText = "➜";
+            document.getElementById("runButton").disabled = false;
+            window.scrollTo(0, document.body.scrollHeight);
+            console.log("request failed");
+            });
+
                 
         };
     
