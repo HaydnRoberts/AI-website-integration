@@ -1,6 +1,5 @@
 const functions = require('firebase-functions');
 const { OpenAIAPI } = require('openai');
-// import OpenAI from 'openai'
 const api_key = functions.config().chatwithgpt3.api_key;
 const openai = new OpenAIAPI({ key: api_key });
 
