@@ -1,20 +1,21 @@
 {
-    "name": "firebase-functions",
+    "name": "chatgpt-firebase-functions",
+    "overrides": {
+        "graceful-fs": "^4.2.10"
+    },
     "version": "1.0.0",
     "description": "Firebase Cloud Functions for ChatGPT integration",
-    "main": "AI.js", 
+    "main": "demo.js",
     "scripts": {
-      "start": "firebase emulators:start",
-      "deploy": "firebase deploy --only functions"
-    },
-    "dependencies": {
-      "firebase-functions": "^12.6.0",
-      "firebase-admin": "^12.6.0",
-      "firebase": "^12.6.0",
-      "openai": "^4.11.1" 
+        "start": "firebase emulators:start",
+        "deploy": "firebase deploy --only functions"
     },
     "engines": {
-      "node": "18" 
+        "node": "18"
+    },
+    "dependencies": {
+        "dotenv": "^16.3.1",
+        "firebase-tools": "^12.6.1",
+        "openai": "^4.11.1"
     }
-  }
-  
+}
