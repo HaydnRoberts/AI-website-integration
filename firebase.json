@@ -20,7 +20,7 @@
       "**/node_modules/**"
     ],
     "rewrites": [ {
-      "source": "/Ai.js",
+      "source": "https://us-central1-career-coach-brad-online.cloudfunctions.net/chatWithGpt3",
       "function": "chatWithGpt3"
     } ]
   }
