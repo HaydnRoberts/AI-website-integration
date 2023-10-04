@@ -2,9 +2,7 @@ const functions = require('firebase-functions');
 require('dotenv').config()
 const { OpenAI } = require('openai');
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const cors = require('cors')
-
-const corsHandler = cors({ origin: true });
+const cors = require('cors')({origin: true});
 
 let chatHistory = [];
 
@@ -34,7 +32,6 @@ const getChatCompletion = async (userInput, chatMemory) => {
   });
 
   const responseContent = response.data.choices[0].message.content;
-
   chatHistory.push(responseContent);
   chatHistory.push("\n");
 
@@ -42,7 +39,16 @@ const getChatCompletion = async (userInput, chatMemory) => {
 };
 
 exports.chatWithGpt3 = functions.https.onRequest(async (req, res) => {
-  corsHandler(request, response, async () => {
+  cors(req, res, async () => {
+    if (req.method === 'OPTIONS') {
+      // Send response to OPTIONS requests
+      res.set('Access-Control-Allow-Methods', 'POST, DELETE');
+      res.set('Access-Control-Allow-Headers', 'application/json');
+      res.set('Access-Control-Max-Age', '3600');
+      res.status(204).send('Access Granted');
+    } else {
+      res.send('Access Denied');
+    }
     console.log("Function started");
     if (req.method === "POST") {
       const { prompt, chat_memory } = req.body;
@@ -50,21 +56,21 @@ exports.chatWithGpt3 = functions.https.onRequest(async (req, res) => {
         const chatHistoryText = await getChatCompletion(prompt, chat_memory);
         console.log("openai request successful");
         // Send the chat history as JSON
-        res.set("Access-Control-Allow-Origin", "https://career-coach-brad-online.web.app");
+        res.set("Access-Control-Allow-Origin", "https://career-coach-brad-online.web.app, https://career-coach-brad-online.firebaseapp.com");
         res.status(200).json({ chat_history: chatHistoryText });
       } catch (error) {
-        res.set("Access-Control-Allow-Origin", "https://career-coach-brad-online.web.app");
+        res.set("Access-Control-Allow-Origin", "https://career-coach-brad-online.web.app, https://career-coach-brad-online.firebaseapp.com");
         res.status(500).json({ error: error.message });
         console.log("openai request failed");
       }
     } else if (req.method === "DELETE") {
       chatHistory = [];
       console.log("Chat history cleared.");
-      res.set("Access-Control-Allow-Origin", "https://career-coach-brad-online.web.app");
+      res.set("Access-Control-Allow-Origin", "https://career-coach-brad-online.web.app, https://career-coach-brad-online.firebaseapp.com");
       res.status(200).send("Chat history cleared.");
     } else {
       console.log("res.status(405).send('Method not allowed')")
-      res.set("Access-Control-Allow-Origin", "https://career-coach-brad-online.web.app");
+      res.set("Access-Control-Allow-Origin", "https://career-coach-brad-online.web.app, https://career-coach-brad-online.firebaseapp.com");
       res.status(405).send("Method not allowed");
     }
   })
