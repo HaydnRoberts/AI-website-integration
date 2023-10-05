@@ -75,7 +75,9 @@
             }),
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            mode:"cors",
+            credentials: "include"
         })
         .then(response => response.json()) // Parse the response as JSON
         .then(data => {

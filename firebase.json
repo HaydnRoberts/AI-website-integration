@@ -23,5 +23,16 @@
       "source": "https://us-central1-career-coach-brad-online.cloudfunctions.net/chatWithGpt3",
       "function": "chatWithGpt3"
     } ]
-  }
+  },
+  "headers": [
+    {
+      "source": "/chatWithGpt3",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://career-coach-brad-online.web.app"
+        }
+      ]
+    }
+  ]
 }
