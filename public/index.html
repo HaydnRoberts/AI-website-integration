@@ -64,6 +64,7 @@
             prompt: userPrompt,
             chat_memory: chatMemory
         }));
+        
 
         // Send the user's input to the Firebase Cloud Function (chatWithGpt3)
         // Make a POST request to the Firebase Cloud Function
@@ -77,7 +78,6 @@
                 "Content-Type": "application/json"
             },
             mode:"cors",
-            credentials: "include"
         })
         .then(response => response.json()) // Parse the response as JSON
         .then(data => {
