@@ -30,10 +30,12 @@ const getChatCompletion = async (userInput, chatMemory) => {
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo-0613",
     messages: messages,
-    max_tokens: 1000
+    max_tokens: 2000
   });
   console.log("adding response to chat history");
-  const responseContent = response.data.choices[0].message.content;
+  console.log(response)
+  console.log(response.choices[0].message.content)
+  const responseContent = response.choices[0].message.content;
   chatHistory.push(responseContent);
   chatHistory.push("\n");
   console.log("return chat history");
