@@ -104,6 +104,10 @@
             const selectBox = document.getElementById("options");
             const chatMemory = selectBox.value;
             document.getElementById("chat_history").innerText = "";
+            fetch("https://us-central1-career-coach-brad-online.cloudfunctions.net/chatWithGpt3", {
+                method: "DELETE",
+                mode:"cors",
+            })
         });
     </script>
 </body>
