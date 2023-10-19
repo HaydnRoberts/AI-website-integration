@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Career Coach Brad</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz@6..12&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+    <h1>Career Coach Brad</h1>
+
+    <div id="chat_history" class="chat-container" type="text">Career Coach Brad is an AI assistant designed to help you find courses and career paths. Ask a question in the box below, and Brad will give you guidance for your future.</div>
+
+    <div class="text-bar">
+        <form id="RunPython">
+            <div class="input-container">
+                <textarea id="prompt" name="prompt" placeholder="What would you like to ask..."></textarea>
+                <button type="submit" id="runButton">➜</button>
+            </div>
+        </form>
+        <div class="option-bar">
+            <label for="options" style="color:white;">How many previous questions Career coach will remember:</label>
+            <select id="options">
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+                <option value="0">0</option>
+            </select>
+            <button id="refreshButton">Refresh chat history</button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("RunPython").addEventListener("submit", function(event) {
+            event.preventDefault();
+            runCode();
+            document.getElementById("runButton").disabled = true;
+            document.getElementById("runButton").innerText = "···";
+        });
+
+        document.getElementById("prompt").addEventListener("keydown", function(event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault(); // Prevent the default behavior of the Enter key
+                console.log("form submitted")
+                runCode();
+                document.getElementById("runButton").disabled = true;
+                document.getElementById("runButton").innerText = "···";
+            }
+        });
+
+    function runCode() {
+        // Get the user's input from the "prompt" input field
+        const userPrompt = document.getElementById("prompt").value;
+        const selectBox = document.getElementById("options");
+        document.getElementById("prompt").value = "";
+
+        // Get the selected chat memory value
+        const chatMemory = selectBox.value;
+
+        console.log("attempting to run request");
+        console.log(JSON.stringify({
+            prompt: userPrompt,
+            chat_memory: chatMemory
+        }));
+        
+
+        // Send the user's input to the Firebase Cloud Function (chatWithGpt3)
+        // Make a POST request to the Firebase Cloud Function
+        fetch("https://us-central1-career-coach-brad-online.cloudfunctions.net/chatWithGpt3", {
+            method: "POST",
+            body: JSON.stringify({
+                prompt: userPrompt,
+                chat_memory: chatMemory
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            mode:"cors",
+        })
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            // Update the HTML with the chat history
+            document.getElementById("chat_history").innerText = data.chat_history;
+            document.getElementById("runButton").innerText = "➜";
+            document.getElementById("runButton").disabled = false;
+            window.scrollTo(0, document.body.scrollHeight);
+            console.log("request successful");
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            document.getElementById("runButton").innerText = "➜";
+            document.getElementById("runButton").disabled = false;
+            window.scrollTo(0, document.body.scrollHeight);
+            console.log("request failed");
+        });
+    };
+
+    
+        document.getElementById("refreshButton").addEventListener("click", function() {
+            // Get the selected chat memory value
+            console.log("clearing chat...")
+            const selectBox = document.getElementById("options");
+            const chatMemory = selectBox.value;
+            document.getElementById("chat_history").innerText = "";
+            fetch("https://us-central1-career-coach-brad-online.cloudfunctions.net/chatWithGpt3", {
+                method: "DELETE",
+                mode:"cors",
+            })
+        });
+    </script>
+</body>
+</html>

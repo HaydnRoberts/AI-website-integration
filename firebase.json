@@ -1,10 +1,11 @@
 {
   "functions": [
     {
-      "source": "functions",
+      "source": "ChatGPT_website/functions",
       "codebase": "default",
+      "function": "chatWithGpt3",
       "ignore": [
-        "venv",
+        "node_modules",
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log"
@@ -12,11 +13,26 @@
     }
   ],
   "hosting": {
-    "public": "ChatGPT website",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
-  }
+    ],
+    "rewrites": [ {
+      "source": "https://us-central1-career-coach-brad-online.cloudfunctions.net/chatWithGpt3",
+      "function": "chatWithGpt3"
+    } ]
+  },
+  "headers": [
+    {
+      "source": "/chatWithGpt3",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://career-coach-brad-online.web.app"
+        }
+      ]
+    }
+  ]
 }

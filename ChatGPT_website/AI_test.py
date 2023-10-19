@@ -1,6 +1,6 @@
 import openai
-import json
 from flask import Flask, render_template, request, jsonify
+import os
 
 file_path = '/Users/haydn/Documents/GitHub/AI-website-integration-api-key/key.txt'  
 try:
@@ -8,6 +8,7 @@ try:
         api_key = file.read()
 except FileNotFoundError:
     print(f"The file '{file_path}' was not found.")
+    api_key  = os.environ.get('key')
 
 openai.api_key = api_key
 
@@ -17,7 +18,7 @@ app = Flask(__name__, static_url_path='/static')
 
 @app.route('/')
 def index():
-    return render_template('Index.html')
+    return render_template('index.html')
 
 @app.route('/AI_test.py', methods=['GET', 'POST'])
 def run_python_code():
