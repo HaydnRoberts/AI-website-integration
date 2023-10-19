@@ -1,18 +1,17 @@
-name: Deploy to Firebase Hosting on merge
+name: Deploy to Firebase Hosting on PR
+
 on:
   push:
     tags:
       - v*
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set api key as Environment Variable
-        env:
-          api_key: ${{ secrets.api_key }}
-        run: echo "api key uploaded"
+
 
       
       - name: upload to firebase
